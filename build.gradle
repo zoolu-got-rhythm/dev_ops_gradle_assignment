@@ -1,8 +1,8 @@
 // gradle build script example
 
 ext {
-   name="gradle script example"
-   version="0.1"
+   name = "gradle script example"
+   version = "0.1"
    // set wether you want code inspection done
    inspect = false
 }
@@ -17,7 +17,7 @@ println "building: $project.name"
 task compile{
    // type coersion to arrayList
    ext{
-       classes = ["Dog", "Cat", "Lizard"]
+       classes = ["Dog.java", "Cat.java", "Lizard.java"]
    }
    doFirst{
        println classes;
@@ -29,7 +29,7 @@ task compile{
 
 task compileUnitTests{
    ext{
-      classes = ["Dog_test", "Cat_test"]
+      classes = ["Dog_test.java", "Cat_test.java"]
    }
 
    doFirst{
