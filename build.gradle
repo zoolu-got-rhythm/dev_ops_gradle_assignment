@@ -7,6 +7,7 @@ ext {
    inspect = false
 }
 
+// fetch dependencies from maven central
 dependencies{
    // testCompile(junit)
    // pmd
