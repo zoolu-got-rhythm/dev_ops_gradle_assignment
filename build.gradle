@@ -4,11 +4,12 @@ ext {
    name="gradle script example"
    version="0.1"
    // set wether you want code inspection done
-   inspect = true
+   inspect = false
 }
 
 dependencies{
    // testCompile(junit)
+   // pmd
 }
 
 println "building: $project.name"
@@ -21,8 +22,7 @@ task compile{
    doFirst{
        println classes;
        classes.each{
-            ele ->
-               println "compiling class: $ele";
+            ele -> println "compiling class: $ele";
        }
    }
 }
@@ -40,7 +40,7 @@ task compileUnitTests{
    }
 }
 
-task runUnitTests(dependsOn: compileUnitTests){
+task runUnitTests(dependsOn: [compileUnitTests, compile]){
    doLast{
        this.compileUnitTests.classes.each{
            ele -> println "running: $ele"
@@ -63,9 +63,7 @@ task inspection{
 }
 
 inspection.onlyIf{
-    this.tasks.each{
-        t -> println t.name == "runCode" || t.name == "runUnitTests"
-    }
+    project.inspect == true
 }
 
 runCode.mustRunAfter(runUnitTests)
