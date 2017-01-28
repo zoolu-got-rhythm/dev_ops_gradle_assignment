@@ -3,7 +3,15 @@
 ext {
    name="gradle script example"
    version="0.1"
+   // set wether you want code inspection done
+   inspect = true
 }
+
+dependencies{
+   // testCompile(junit)
+}
+
+println "building: $project.name"
 
 task compile{
    // type coersion to arrayList
@@ -48,4 +56,17 @@ task runCode(dependsOn: compile){
     }
 }
 
-runCode.mustRunAfter runUnitTests
+task inspection{
+    doLast{
+        println "running inspection"
+    }
+}
+
+inspection.onlyIf{
+    this.tasks.each{
+        t -> println t.name == "runCode" || t.name == "runUnitTests"
+    }
+}
+
+runCode.mustRunAfter(runUnitTests)
+inspection.mustRunAfter(runCode)
