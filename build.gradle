@@ -1,0 +1,51 @@
+// gradle build script example
+
+ext {
+   name="gradle script example"
+   version="0.1"
+}
+
+task compile{
+   // type coersion to arrayList
+   ext{
+       classes = ["Dog", "Cat", "Lizard"]
+   }
+   doFirst{
+       println classes;
+       classes.each{
+            ele ->
+               println "compiling class: $ele";
+       }
+   }
+}
+
+task compileUnitTests{
+   ext{
+      classes = ["Dog_test", "Cat_test"]
+   }
+
+   doFirst{
+      println "compiling unit tests"
+      it.classes.each{
+          ele -> println "compiling unit test: $ele"
+      }
+   }
+}
+
+task runUnitTests(dependsOn: compileUnitTests){
+   doLast{
+       this.compileUnitTests.classes.each{
+           ele -> println "running: $ele"
+       }
+   }
+}
+
+task runCode(dependsOn: compile){
+    doLast{
+        this.compile.classes.each{
+            ele -> println "executing class: $ele"
+        }
+    }
+}
+
+runCode.mustRunAfter runUnitTests
