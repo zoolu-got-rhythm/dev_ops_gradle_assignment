@@ -1,71 +1,35 @@
 // gradle build script example
 
+apply plugin: 'java'
+apply plugin: 'pmd'
+
+println project.pmd
+println rootProject
+
 ext {
    name = "gradle script example"
    version = "0.1"
    // set wether you want code inspection done
-   inspect = false
+}
+
+pmd {
+    consoleOutput = true
+    sourceSets = [sourceSets.main]
+    ruleSetConfig = rootProject.resources.text.fromFile('etc/pmd/ruleset.xml')
+}
+
+repositories{
+    mavenCentral()
 }
 
 // fetch dependencies from maven central
 dependencies{
-   // testCompile(junit)
-   // pmd
+   // junit
+   testCompile 'junit:junit:4.12'
 }
 
-println "building: $project.name"
-
-task compile{
-   // type coersion to arrayList
-   ext{
-       classes = ["Dog.java", "Cat.java", "Lizard.java"]
-   }
-   doFirst{
-       println classes;
-       classes.each{
-            ele -> println "compiling class: $ele";
-       }
-   }
+task runApp(type: JavaExec){
+    main = 'org.gradle.App'
+    classpath = sourceSets.main.runtimeClasspath
+    // println runtimeClasspath
 }
-
-task compileUnitTests{
-   ext{
-      classes = ["Dog_test.java", "Cat_test.java"]
-   }
-
-   doFirst{
-      println "compiling unit tests"
-      it.classes.each{
-          ele -> println "compiling unit test: $ele"
-      }
-   }
-}
-
-task runUnitTests(dependsOn: [compileUnitTests, compile]){
-   doLast{
-       this.compileUnitTests.classes.each{
-           ele -> println "running: $ele"
-       }
-   }
-}
-
-task runCode(dependsOn: compile){
-    doLast{
-        this.compile.classes.each{
-            ele -> println "executing class: $ele"
-        }
-    }
-}
-
-task inspection{
-    doLast{
-        println "running inspection"
-    }
-}
-
-inspection.onlyIf{
-    project.inspect == true
-}
-
-runCode.mustRunAfter(runUnitTests)
-inspection.mustRunAfter(runCode)
