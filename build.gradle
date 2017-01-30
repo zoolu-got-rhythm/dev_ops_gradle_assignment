@@ -3,6 +3,7 @@
 apply plugin: 'java'
 apply plugin: 'pmd'
 
+println build
 println project.pmd
 println rootProject
 
@@ -12,6 +13,7 @@ ext {
    // set wether you want code inspection done
 }
 
+// configure pmd plugin
 pmd {
     consoleOutput = true
     sourceSets = [sourceSets.main]
@@ -31,5 +33,4 @@ dependencies{
 task runApp(type: JavaExec){
     main = 'org.gradle.App'
     classpath = sourceSets.main.runtimeClasspath
-    // println runtimeClasspath
 }

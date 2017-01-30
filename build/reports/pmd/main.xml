@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<pmd version="5.2.3" timestamp="2017-01-29T23:00:19.287">
+<pmd version="5.2.3" timestamp="2017-01-30T00:50:12.698">
 <file name="/Users/Slime/Documents/NSA_yr2/dev_ops/gradleExamples/src/main/java/org/gradle/App.java">
 <violation beginline="3" endline="24" begincolumn="17" endcolumn="1" rule="UseUtilityClass" ruleset="Design" package="org.gradle" class="App" externalInfoUrl="http://pmd.sourceforge.net/pmd-5.2.3/pmd-java/rules/java/design.html#UseUtilityClass" priority="3">
 All methods are static.  Consider using a utility class instead. Alternatively, you could add a private constructor or make the class abstract to silence this warning.
