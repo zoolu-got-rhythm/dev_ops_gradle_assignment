@@ -4,12 +4,21 @@
 
 # if else statement checking for operating system package manager: yum or apt-get e.g
 
+# dev team emails array
+declare -a dev_team
+dev_team[0]="chris@mail.com"
+dev_team[1]="james@mail.com"
+
+
 echo "updating machine..."
 yum update -y
 yum upgrade -y
 
 echo "installing git..."
 yum install git -y
+
+echo "installing gradle"
+yum install gradle -y
 
 echo "installing gitlab server key..."
 touch /root/.ssh/known_hosts
@@ -57,3 +66,16 @@ cd root
 # the key just needs to match
 echo "cloning repository..."
 ssh-agent bash -c 'ssh-add /root/distribution_key_tokyo.key; git clone git@gitlab.cs.cf.ac.uk:c1575287/tokyo.git'
+
+cd tokyo
+
+touch report.txt
+
+// find a way to pipe build results to a report file
+gradle build | report.txt
+
+echo "sending report to dev"
+for (( i = 0; i < ${#dev_team[*]}; i++ )); do
+  #statements
+  cat report | mail -s "build report" user&email.com
+done
